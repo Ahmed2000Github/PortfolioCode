@@ -1,0 +1,74 @@
+﻿
+
+
+
+<style>
+    .icon-background{
+        height: 80px;
+        width: 80px;
+    }
+
+    .custom-mud-icon-size-large {
+        font-size: 5.25rem;
+    }
+    .text-height-constraints{
+        max-height:120px;
+        min-height:120px;
+    }
+
+    .no-scroll {
+        scrollbar-width: thin;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+        .no-scroll::-webkit-scrollbar {
+            width: 0 !important;
+            height: 0 !important;
+            display: none;
+        }
+
+    @@media (min-width:600px) and (max-width:1065px) {
+        .text-height-constraints {
+            max-height: 180px;
+            min-height: 180px;
+        }
+    }
+    @@media (max-width:300px) {
+        .text-height-constraints {
+            max-height:240px;
+            min-height: 240px;
+        }
+    }
+
+</style>
+
+<MudPaper Class="pa-5">
+    <MudGrid>
+        <MudItem xs="12" Class="d-flex justify-center">
+            <MudIcon Icon="@Icon" Size="Size.Large" Class="custom-mud-icon-size-large" Color="Color.Primary"></MudIcon>
+         
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.h4">@Title</MudText>
+        </MudItem>
+        <MudItem xs="12">
+            <MudText Typo="Typo.body1" Class="text-height-constraints overflow-y-scroll no-scroll">@Description</MudText>
+        </MudItem>
+    </MudGrid>
+</MudPaper>
+
+
+@code {
+    // Get Icon parameter
+    [Parameter]
+    public string Icon { get; set; }
+
+    // Get Title parameter
+    [Parameter]
+    public string Title { get; set; }
+
+    // Get Description parameter
+    [Parameter]
+    public string Description { get; set; }
+}

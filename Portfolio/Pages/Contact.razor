@@ -1,0 +1,184 @@
+﻿@page "/contact"
+@layout MainLayout
+@using MudBlazor.Services;
+@using MyPortfolio.ViewModels;
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+
+<title>Contact</title>
+
+<MudGrid Justify="Justify.Center">
+    <style>
+        .info-hover:hover {
+            color: var(--mud-palette-primary) !important;
+            cursor: pointer;
+        }
+    </style>
+    <MudItem xs="12" sm="10" md="4">
+        <Bar />
+        <br />
+        <MudText Typo="Typo.h3" Style="font-weight:bold">
+            let's work together
+        </MudText>
+        <br />
+        <MudText Typo="Typo.body1">
+            Passionate software engineer dedicated to crafting innovative solutions; let's collaborate to bring your ideas to life and build a better future together.
+        </MudText>
+        <MudGrid Justify="Justify.Center">
+            <MudItem>
+                <div></div>
+            </MudItem>
+            <MudItem xs="12" sm="12" Class="d-flex gap-4">
+                <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Email" Size="Size.Large" />
+                <MudText Typo="Typo.body1" Class="info-hover">
+                    ahmedelrhaouti2000@gmail.com
+                </MudText>
+            </MudItem>
+            <MudItem xs="12" sm="12" Class="d-flex gap-4">
+                <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.PhoneAndroid" Size="Size.Large" />
+                <MudText Typo="Typo.body1" Class="info-hover">
+                    +212 61078-9725
+                </MudText>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+
+    <MudItem xs="12" md="8">
+        <MudPaper>
+            <MudForm @ref="form" >
+                <MudGrid Class="pa-10">
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="@contactVM.FullName" Label="full name" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.PersonOutline" Required="true" RequiredError="Full name is required!" OnlyValidateIfDirty="true" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="@contactVM.Email" Label="email address" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.Email" Required="true" RequiredError="Email is required!" OnlyValidateIfDirty="true" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="@contactVM.CompanyName" Label="company name" Variant="Variant.Outlined" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Rounded.ShoppingBag" Required="true" RequiredError="Company name is required!" OnlyValidateIfDirty="true" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudTextField @bind-Value="@contactVM.Subject" Label="subject" Variant="Variant.Outlined" Adornment="Adornment.End" Required="true" RequiredError="Subject is required!" OnlyValidateIfDirty="true" />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudTextField @bind-Value="@contactVM.Message" Lines="3" Label="message" Variant="Variant.Outlined" Adornment="Adornment.End" Required="true" RequiredError="Message is required!" OnlyValidateIfDirty="true" />
+                    </MudItem>
+                    <MudItem xs="12" sm="6">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Style="width:100%;" Class="custom-mud-button" OnClick="@(async () => await Submit())">send message</MudButton>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <div></div>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudDivider />
+                    </MudItem>
+                    <MudItem xs="12">
+                        <div></div>
+                    </MudItem>
+                    <MudItem xs="12">
+                        <MudGrid>
+                            <MudItem xs="12" sm="6">
+                                <MudText Typo="Typo.h6">follow me on social media:</MudText>
+                            </MudItem>
+                            <MudItem xs="12" sm="6" Class="d-flex gap-4 justify-center">
+                                <SocialMedia />
+                            </MudItem>
+                        </MudGrid>
+
+                    </MudItem>
+                </MudGrid>
+            </MudForm>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
+@code {
+    private ContactVM contactVM = new();
+    [CascadingParameter(Name = "_isDarkMode")]
+    public bool _isDarkMode { get; set; }
+
+    MudForm form;
+
+
+    [Inject] IBreakpointService BreakpointListener { get; set; }
+
+    string _flexColumn = "";
+    Align _textAlign = Align.Start;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Change align based on breakpoint state
+            await BreakpointListener.Subscribe(breakpoint =>
+            {
+                switch (breakpoint)
+                {
+                    case Breakpoint.Sm:
+                        _textAlign = Align.Center;
+                        break;
+                    default:
+                        _textAlign = Align.Start;
+                        break;
+                }
+                InvokeAsync(StateHasChanged);
+            });
+
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+    private const string Key = "key";
+    // Submit the form
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            var snackBar =  ShowSnackBar("Sending the email ... ",duration:int.MaxValue); 
+            try
+            {
+                var response = await Http.PostAsJsonAsync<ContactVM>("api/Home/SendMail", contactVM);
+                Snackbar.Remove(snackBar);
+                if (response.IsSuccessStatusCode)
+                {
+                    bool result = await response.Content.ReadFromJsonAsync<bool>();
+                    if (result)
+                    {
+                        ShowSnackBar("Email was sent successfully !!!", Severity.Success);
+                    }
+                    else
+                    {
+                        ShowSnackBar("Error happened try later !!!", Severity.Error);
+
+                    }
+
+                }
+                else
+                {
+                    ShowSnackBar("Error happened try later !!!", Severity.Error);
+                }
+            }
+            catch (Exception)
+            {
+                Snackbar.Remove(snackBar);
+                ShowSnackBar("Error happened try later !!!", Severity.Error);
+            }
+          
+
+        }
+    }
+    // Config SnackBar
+    Snackbar ShowSnackBar(string message, Severity serverity = Severity.Info, int duration = 3000)
+    {
+        Snackbar.Clear();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
+        return Snackbar.Add(message, serverity, config =>
+    {
+      
+        config.VisibleStateDuration = duration;
+        config.BackgroundBlurred = true;
+    });
+    }
+}

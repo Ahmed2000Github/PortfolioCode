@@ -1,0 +1,208 @@
+﻿@page "/about"
+@using MudBlazor.Services
+@using Portfolio.Models
+@inject IJSRuntime JsRuntime
+@inject IBreakpointService BreakpointListener
+
+<style>
+    .image-width {
+        /* width: 100%; */
+    }
+
+
+    @@media (min-width: 600px) and (max-width:960px) {
+        .text-center-sm {
+            text-align: center !important;
+        }
+
+        .bar-center-sm {
+            display: flex;
+            justify-content: center;
+        }
+     
+    }
+</style>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" md="6">
+        <MudHidden Breakpoint="Breakpoint.SmAndDown">
+            <MudItem xs="12">
+                <br />
+            </MudItem>
+        </MudHidden>
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12">
+                <br />
+            </MudItem>
+            <MudItem xs="12" Class="bar-center-sm">
+                <Bar />
+            </MudItem>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h3" Class="text-center-sm" style="font-weight: bold;">about me</MudText>
+            </MudItem>
+            <MudItem xs="12" sm="10" md="12">
+                <MudText Typo="Typo.body1" Class="text-center-sm">Experienced computer engineer with three years in IT and networking. Holds a 2023 engineering degree from FST Marrakech. Proven track record in software development, testing, and debugging. Adaptable and collaborative team player. Equipped to bring creative solutions to complex challenges in dynamic tech environments.</MudText>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+    <MudItem xs="12" md="6" Class="d-flex justify-center">
+        <MudImage Src="./images/about.png" Class="image-width" />
+    </MudItem>
+</MudGrid>
+<br />
+<br />
+<MudGrid Justify="Justify.Center">
+
+    <MudItem xs="12" Class="bar-center-sm">
+        <Bar />
+    </MudItem>
+    <MudItem xs="12" md="5">
+        <MudText Typo="Typo.h3" Class="text-center-sm" style="font-weight: bold;">my professional skills</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="10" md="7">
+        <MudText Class="text-center-sm" Typo="Typo.body1">With a strong foundation in software development, I bring three years of IT and networking expertise. My adaptive and collaborative approach ensures effective problem-solving in dynamic tech environments.</MudText>
+    </MudItem>
+    <MudItem xs="12">
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12" sm="5" md="4">
+                <SkillCard Icon="@Icons.Material.Filled.TipsAndUpdates" Title="innovative" Description="A forward-thinking professional, consistently seeking creative solutions, embracing innovation to address challenges in dynamic and evolving environments." />
+            </MudItem>
+            <MudItem xs="12" sm="5" md="4">
+                <SkillCard Icon="@Icons.Material.Rounded.Groups" Title="team work" Description="Experienced in collaborative efforts, adept at fostering synergy and achieving collective goals with a proactive, communicative, and inclusive approach." />
+            </MudItem>
+            <MudItem xs="12" sm="5" md="4">
+                <SkillCard Icon="@Icons.Material.Filled.MyLocation" Title="goal oriented" Description="Focused on achieving objectives, adept at navigating challenges with a results-driven mindset and a commitment to success in every endeavor." />
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+
+</MudGrid>
+<br />
+<br />
+<br />
+<br />
+<br />
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" md="7">
+        <MudGrid Justify="Justify.Center">
+            <MudItem xs="12">
+                <br />
+            </MudItem>
+            <MudItem xs="12" Class="bar-center-sm">
+                <Bar />
+            </MudItem>
+            <MudItem xs="12">
+                <MudText Typo="Typo.h3" Class="text-center-sm" style="font-weight: bold;">my past experience</MudText>
+            </MudItem>
+            <MudItem xs="12" sm="10" md="12">
+                <MudText Typo="Typo.body1" Class="text-center-sm">I've acquired hands-on experience through internships, including roles in Swift and Flutter development, showcasing my practical skills in diverse tech environments.</MudText>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+    <MudItem xs="12" md="5" Class="d-flex justify-center">
+        <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="@_position" Reverse="true">
+            <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
+                <ItemDot>
+                    <MudAvatar Size="@Size.Large" Image="./images/csharp.png" />
+                </ItemDot>
+                <ItemContent>
+                    <MudPaper Class="pa-4">
+                        @if (_position == TimelinePosition.Start)
+                        {
+                            <MudText Typo="Typo.h5">2024 (4 Months)</MudText>
+                        }
+                        <MudText Typo="Typo.body1">Open DotNet projects <span style="color:var(--mud-palette-primary)"> @@Home</span></MudText>
+                    </MudPaper>
+                </ItemContent>
+                <ItemOpposite>
+                    <MudText Color="Color.Warning">2024 (4 Months)</MudText>
+                </ItemOpposite>
+            </MudTimelineItem>
+            <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
+                <ItemDot>
+                    <MudAvatar Size="@Size.Large" Image="./images/swift.png" />
+                </ItemDot>
+                <ItemContent>
+                    <MudPaper Class="pa-4">
+                        @if (_position == TimelinePosition.Start)
+                        {
+                            <MudText Typo="Typo.h5">2023 (6 Months)</MudText>
+                        }
+                        <MudText Typo="Typo.body1">Swift Developement Intership (PFE) <span style="color:var(--mud-palette-primary)">@@ADRIA B&T</span></MudText>
+                    </MudPaper>
+                </ItemContent>
+                <ItemOpposite>
+                    <MudText Color="Color.Warning">2023 (6 Months)</MudText>
+                </ItemOpposite>
+            </MudTimelineItem>
+            <MudTimelineItem  Size="@Size.Large" Variant="Variant.Filled">
+                <ItemDot>
+                    <MudAvatar Size="@Size.Large"  Image="./images/flutter.png" />
+                </ItemDot>
+                <ItemContent>
+                    <MudPaper Class="pa-4">
+                        @if(_position == TimelinePosition.Start)
+                        {
+                        <MudText Typo="Typo.h5">2022 (2 Months)</MudText>
+                        }
+                        <MudText Typo="Typo.body1">Flutter Developement Intership (PFA) <span style="color:var(--mud-palette-primary)">@@ADRIA B&T</span></MudText>
+                    </MudPaper>
+                </ItemContent>
+                <ItemOpposite>
+                    <MudText Color="Color.Info">2022 (2 Months)</MudText>
+                </ItemOpposite>
+            </MudTimelineItem>
+           
+        </MudTimeline>
+    </MudItem>
+</MudGrid>
+
+@code {
+    // Current TimeLine Position
+    TimelinePosition _position = TimelinePosition.Alternate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Set the initaile TimeLine Position
+        var Width = await GetWidth();
+        if (Width < 600 || Width > 960)
+        {
+            _position = TimelinePosition.Start;
+        }
+    }
+
+    // Change the TimeLine Position Based on the current Browser Width
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+  
+        {
+            await BreakpointListener.Subscribe(breakpoint =>
+            {
+                switch (breakpoint)
+                {
+                    case Breakpoint.Md:
+                        _position = TimelinePosition.Start;
+                        break;
+                    case Breakpoint.Xs:
+                        _position = TimelinePosition.Start;
+                        break;
+                    default:
+                        _position = TimelinePosition.Alternate;
+                        break;
+                }
+                InvokeAsync(StateHasChanged);
+            });
+
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    // Get the current Browser width
+    private async Task<int> GetWidth()
+    {
+        var dimension = await JsRuntime.InvokeAsync<WindowDimension>("getWindowDimensions");
+        return dimension.Width;
+    }
+}

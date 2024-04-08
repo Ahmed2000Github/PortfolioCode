@@ -1,0 +1,263 @@
+﻿@inherits LayoutComponentBase
+@inject ISnackbar Snackbar
+
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="MyCustomTheme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<style>
+    .text-color {
+        color: @(_isDarkMode ? "#ffffff" : "#000000") !important;
+    }
+
+    .mud-appbar {
+        background-color: transparent !important;
+        backdrop-filter: blur(20px);
+    }
+
+    .mud-grid-item > .mud-nav-item:hover {
+        background-color: #00bcd411 !important;
+        border-radius: 10px;
+    }
+
+    .active, .mud-nav-link:hover {
+        background-color: transparent !important;
+        border-radius: 10px;
+    }
+
+    .custom-mud-button, .custom-mud-image, .custom-link {
+        transition: transform 0.3s ease-in-out;
+        cursor: pointer;
+    }
+
+    .custom-mud-button {
+        border-radius: 15px;
+        height: 50px;
+        box-shadow: none;
+        text-transform: lowercase !important;
+    }
+
+    .mud-button-filled-primary:hover {
+        background-color: #00bcd4 !important;
+    }
+
+    .custom-mud-button:hover {
+        box-shadow: #00bcd444 0px 5px 20px;
+    }
+
+    .custom-mud-button:hover, .custom-mud-image:hover, .custom-link:hover {
+        transform: scale(1.1);
+    }
+
+    .custom-link:hover {
+        text-decoration: none !important;
+    }
+
+    .mud-button-filled-transparent {
+        background-color: transparent !important;
+        color: #00bcd4;
+    }
+
+    .menu-button {
+        background-color: #00bcd4 !important;
+        border-radius: 15px !important;
+        color: white !important;
+    }
+
+    .mud-typography-body1 {
+        line-height: 30px !important;
+    }
+
+    .mud-paper {
+        box-shadow: #00bcd444 0px 5px 20px !important;
+        border-radius: 20px;
+    }
+
+    .mud-input-outlined:focus-within .mud-icon-root {
+        color: var(--mud-palette-primary) !important;
+        box-shadow: #00bcd444 0px 5px 20px;
+    }
+
+    .mud-input-error .mud-icon-root {
+        color: var(--mud-palette-error) !important;
+    }
+
+    .mud-input-error:focus-within .mud-icon-root {
+        color: var(--mud-palette-error) !important;
+        box-shadow: #ff000044 0px 5px 20px;
+    }
+
+
+
+    @@media (max-width:320px) {
+        .mud-snackbar-location-bottom-left {
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .mud-snackbar {
+            min-width: 260px;
+        }
+    }
+</style>
+
+<MudLayout>
+    <MudAppBar Elevation="0" Class="text-color">
+        <MudBreakpointProvider>
+            <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+                <MudIconButton Class="menu-button pa-2" Icon="@Icons.Material.Filled.Menu" Edge="Edge.End" OnClick="@(() => OpenDrawer(Anchor.Top))" />
+                <MudSpacer />
+            </MudHidden>
+            <MudLink Href="">
+                <MudHidden Breakpoint="Breakpoint.SmAndDown" Invert="true">
+                    <style>
+                        .custom-mud-image {
+                            width: 160px;
+                            height: 40px;
+                        }
+                    </style>
+                </MudHidden>
+                <Logo Height="60" IsDarkMode="@_isDarkMode" />
+            </MudLink>
+
+            <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+                <MudSpacer />
+                <NavMenu IsHorizontal="true" />
+            </MudHidden>
+        </MudBreakpointProvider>
+        <MudSpacer />
+        <MudIconButton Icon="@modeIcon" Color="Color.Inherit" OnClick="changeThemeModeClicked" />
+
+        <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
+            <MudButton Link="contact" Variant="Variant.Filled" Color="Color.Primary" Class="custom-mud-button"> Contact</MudButton>
+        </MudHidden>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" Anchor="@anchor" Elevation="1" Variant="@DrawerVariant.Temporary" Style="overflow:hidden">
+        <MudDrawerHeader Class="d-flex justify-center align-center">
+            <MudIconButton Class="menu-button pa-2" Style="width:40px;height:40px" Icon="@Icons.Material.Rounded.Close" Edge="Edge.End" OnClick="@(() => closeDrawer())" />
+            <MudSpacer />
+            <MudLink Href="" onclick="@(() => closeDrawer())">
+                <Logo Height="50" IsDarkMode="@_isDarkMode" />
+            </MudLink>
+            <MudSpacer />
+            <MudIconButton Icon="@modeIcon" Color="Color.Inherit" OnClick="changeThemeModeClicked" />
+        </MudDrawerHeader>
+
+        <NavMenu IsHorizontal="false" />
+
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-10 pt-5">
+            <CascadingValue Value="_isDarkMode" Name="_isDarkMode">
+                @Body
+            </CascadingValue>
+        </MudContainer>
+        <MudContainer MaxWidth="MaxWidth.Large" Class="my-10 pt-5">
+            <Footer IsDarkMode="@_isDarkMode" />
+        </MudContainer>
+    </MudMainContent>
+
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+    bool _isDarkMode = false;
+    // Change the theme mode icon
+    private string modeIcon => !_isDarkMode ? Icons.Filled.DarkMode : Icons.Filled.LightMode;
+
+    // Get defaut user's browser theme mode
+    private MudThemeProvider _mudThemeProvider;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            ShowSnackBar();
+            StateHasChanged();
+        }
+    }
+
+    // Toggle drawer visibility
+    bool open;
+    Anchor anchor;
+
+    void OpenDrawer(Anchor anchor)
+    {
+        _drawerOpen = true;
+        this.anchor = anchor;
+    }
+
+    // Close Drower
+    private void closeDrawer()
+    {
+        _drawerOpen = false;
+    }
+
+    // Config SnackBar
+    void ShowSnackBar()
+    {
+        Snackbar.Clear();
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomStart;
+        Snackbar.Add("Welcome to my space.", Severity.Success, config =>
+    {
+        config.Icon = @Icons.Material.Filled.WavingHand;
+        config.BackgroundBlurred = true;
+        config.SnackbarVariant = Variant.Text;
+    });
+    }
+
+    // Specify the app theme
+    MudTheme MyCustomTheme = new MudTheme()
+        {
+            Palette = new Palette()
+            {
+                Primary = Colors.Cyan.Default,
+                Background = "#F4FAFB",
+                Surface = "#F4FAFB",
+                DrawerBackground = "#FBFDFD",
+                AppbarBackground = "#FBFDFD",
+                TextPrimary = "#000000",
+                AppbarText = "#000000",
+                DrawerText = "#000000",
+                DrawerIcon = "#000000",
+                DarkLighten = "#F5F9FF",
+                LinesInputs = "#000000",
+                LinesDefault = "#00000055",
+                ActionDefault = Colors.Cyan.Default,
+                TextSecondary = "#00000088",
+                SuccessContrastText = "#000000",
+
+            },
+            PaletteDark = new Palette()
+            {
+                Primary = Colors.Cyan.Default,
+                Background = "#1a1a27",
+                Surface = "#1a1a27",
+                AppbarBackground = "#FBFDFD",
+                TextPrimary = "#ffffff",
+                AppbarText = "#000000",
+                DrawerText = "#ffffff",
+                DrawerIcon = "#ffffff",
+                DrawerBackground = "#000000",
+                DarkLighten = "#F5F9FF",
+                LinesInputs = "#ffffff",
+                LinesDefault = "#ffffff55",
+                ActionDefault = Colors.Cyan.Default,
+                TextSecondary = "#ffffff88",
+                SuccessContrastText = "#ffffff",
+
+            },
+            LayoutProperties = new LayoutProperties()
+            {
+                DrawerWidthLeft = "260px",
+                DrawerWidthRight = "300px"
+            }
+        };
+
+    // Handle theme mode button click
+    private void changeThemeModeClicked()
+    {
+        _isDarkMode = !_isDarkMode;
+        StateHasChanged();
+    }
+}

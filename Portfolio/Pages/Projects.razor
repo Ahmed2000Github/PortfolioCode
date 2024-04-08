@@ -1,0 +1,91 @@
+﻿@page "/projects"
+@using MyPortfolio.ViewModels
+@using System.Text.Json
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+
+<style>
+    .without-shadow {
+        box-shadow: none !important;
+    }
+
+    .no-scroll {
+        scrollbar-width: thin; 
+        -ms-overflow-style: none; 
+        scrollbar-width: none; 
+    
+    }
+    .no-scroll::-webkit-scrollbar {
+        width: 0 !important; 
+        height: 0 !important;
+            display: none;
+    }
+</style>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" Class="d-flex justify-center">
+        <Bar />
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h2" Align="Align.Center">my projects</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="10">
+        <MudText Typo="Typo.body1" Align="Align.Center">Discover a showcase of my diverse projects, each embodying my commitment to innovation and skillful execution. From web development to mobile applications, these creations reflect my passion for turning ideas into tangible solutions.</MudText>
+        <br />
+    </MudItem>
+    <MudItem xs="12">
+        <MudGrid Justify="Justify.Center">
+            @if (_projects!=null)
+            {
+                @foreach (var project in _projects.Projects)
+                {
+                    <MudItem xs="12" sm="6">
+                        <MudPaper Class="pa-4">
+                            <MudGrid>
+                                <MudItem xs="12" sm="4" Class="d-flex justify-center">
+                                    <MudImage Src="@($"./images/techs/{project.Image}.png")" Width="80" />
+                                </MudItem>
+                                <MudItem xs="12" sm="8" Class="d-flex justify-center align-center gap-1">
+                                    <MudIcon Icon="@Icons.Material.Filled.Book" Size="Size.Medium" />
+                                    <MudLink Href="@project.Link" Target="_blank" Class="custom-link">
+                                        <MudText Typo="Typo.subtitle1" Color="Color.Primary">@project.Name</MudText>
+                                    </MudLink>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudText Typo="Typo.body1">@project.Description</MudText>
+                                </MudItem>
+                                <MudItem xs="12">
+                                    <MudStack Row="true" Class="overflow-x-scroll no-scroll">
+                                        @foreach (var tech in project.Techs)
+                                        {
+                                            <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Success" Class="pa-3 without-shadow">@tech</MudText>
+                                        }
+                                    </MudStack>
+                                </MudItem>
+                            </MudGrid>
+                        </MudPaper>
+                    </MudItem>
+                }
+            }
+            else
+            {
+                <MudItem xs="12" Class="d-flex justify-center">
+                    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                </MudItem>
+            }
+
+        </MudGrid>
+    </MudItem>
+</MudGrid>
+
+@code {
+    ProjectsVM _projects;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        var jsonContent = await httpClient.GetStringAsync($"{navigationManager.BaseUri}/data/projectsdata.json");
+        _projects = System.Text.Json.JsonSerializer.Deserialize<ProjectsVM>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+
+    }
+}

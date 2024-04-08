@@ -1,0 +1,50 @@
+﻿
+
+
+<style>
+    h6 {
+        text-align: center;
+    }
+</style>
+
+
+<MudNavMenu Color="Color.Default">
+    <MudGrid Spacing="2" Justify="Justify.Center">
+        <MudItem xs="@getValue">
+            <MudNavLink Href="" Match="NavLinkMatch.All">
+                <MudText Typo="Typo.h6">home</MudText>
+            </MudNavLink>
+        </MudItem>
+        <MudItem xs="@getValue">
+            <MudNavLink Href="about" Match="NavLinkMatch.Prefix">
+                <MudText Typo="Typo.h6">about</MudText>
+            </MudNavLink>
+        </MudItem>
+        <MudItem xs="@getValue">
+            <MudNavLink Href="program" Match="NavLinkMatch.Prefix">
+                <MudText Typo="Typo.h6">program</MudText>
+            </MudNavLink>
+        </MudItem>
+        <MudItem xs="@getValue">
+            <MudNavLink Href="projects" Match="NavLinkMatch.Prefix">
+                <MudText Typo="Typo.h6">projects</MudText>
+            </MudNavLink>
+        </MudItem>
+        @if (!IsHorizontal)
+        {
+            <MudItem xs="@getValue">
+                <MudNavLink Href="contact" Match="NavLinkMatch.Prefix">
+                    <MudText Typo="Typo.h6">contact</MudText>
+                </MudNavLink>
+            </MudItem>
+        }
+    </MudGrid>
+</MudNavMenu>
+
+@code {
+    [Parameter]
+    public bool IsHorizontal { get; set; }
+
+    // Get correct GridItm's xs value
+    private int getValue => IsHorizontal ? 0 : 12;
+}

@@ -1,0 +1,139 @@
+﻿@page "/program"
+@using MudBlazor.Services
+@using Portfolio.Models
+@inject IJSRuntime JsRuntime
+@inject IBreakpointService BreakpointListener
+
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" Class="d-flex justify-center">
+        <Bar />
+    </MudItem>  
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3" Align="Align.Center">my educationnal background</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="7">
+        <MudText Typo="Typo.body1" Align="Align.Center">I hold an engineering degree, highlighting my commitment to academic excellence in computer engineering.</MudText>
+    </MudItem>
+</MudGrid>
+<br />
+<br />
+<br />
+<MudTimeline TimelinePosition="_position" DisableModifiers="true">
+    <MudTimelineItem Color="Color.Info" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Info" Typo="Typo.h5">2023</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudCard Outlined="true" Elevation="25">
+                <MudCardContent>
+                    <MudText Color="Color.Info" Typo="Typo.h6" GutterBottom="true">ENGINEERING CYCLE IN COMPUTER NETWORKS AND INFORMATION SYSTEMS (IRISI)</MudText>
+                    <MudText>Construction of the town of Pripyat, one of 9 “atom towns” begins, to be inhabited by future employees of the nuclear power plants.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </ItemContent>
+    </MudTimelineItem>
+    <MudTimelineItem Color="Color.Success" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Success" Typo="Typo.h5">2020</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudCard Outlined="true" Elevation="25">
+                <MudCardContent>
+                    <MudText Color="Color.Success" Typo="Typo.h6" GutterBottom="true">DEUST</MudText>
+                    <MudText>Holder of a DEUST degree in 2020 after two years of education in the MIPC program at FST Marrakech.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </ItemContent>
+    </MudTimelineItem>
+    <MudTimelineItem Color="Color.Error" Size="Size.Small">
+        <ItemOpposite>
+            <MudText Color="Color.Error" Typo="Typo.h5">2018</MudText>
+        </ItemOpposite>
+        <ItemContent>
+            <MudCard Outlined="true" Elevation="25">
+                <MudCardContent>
+                    <MudText Color="Color.Error" Typo="Typo.h6" GutterBottom="true">BACHELOR'S DEGREE</MudText>
+                    <MudText>Pripyat officially proclaimed as a city.<br />Holder of a BACCALAUREATE degree in 2018 after three years of education in the science of physics branch at RAHAL FAROQ High School - ATTOUIA - EL KELAA DES SRAGHNA.</MudText>
+                </MudCardContent>
+            </MudCard>
+        </ItemContent>
+    </MudTimelineItem>
+</MudTimeline>
+<br />
+<br />
+<br />
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" Class="d-flex justify-center">
+        <Bar />
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3" Align="Align.Center">certificates</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="7">
+        <MudText Typo="Typo.body1" Align="Align.Center">I have earned relevant certificates, showcasing my commitment to continuous learning and expertise in the field.</MudText>
+    </MudItem>
+</MudGrid>
+<MudCarousel Class="mud-width-full" Style="height:400px;" AutoCycleTime="TimeSpan.FromSeconds(5)" ShowArrows="true" ShowBullets="true" AutoCycle="true" TData="object">
+    @for(int i = 1;i<=4;i++){
+        int currentItem = i;
+    <MudCarouselItem Transition="transition" Color="@Color.Transparent">
+        <div class="d-flex justify-center align-center" style="height:100%">
+                <MudImage ObjectFit="@ImageFit" Height="200" Width="400" Src="@($"./images/certificates/cert{currentItem}.jpg")" />
+        </div>
+    </MudCarouselItem>
+    }
+</MudCarousel>
+@code {
+    // Transition mode
+    private Transition transition = Transition.Slide;
+
+    // Image fit mode
+    private ObjectFit ImageFit = ObjectFit.Contain;
+
+    // Current TimeLine Position
+    TimelinePosition _position = TimelinePosition.Alternate;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Set the initaile TimeLine Position
+        var Width = await GetWidth();
+        if (Width < 600)
+        {
+            _position = TimelinePosition.Start;
+        }
+    }
+
+    // Change the TimeLine Position Based on the current Browser Width
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+
+        {
+            await BreakpointListener.Subscribe(breakpoint =>
+            {
+                switch (breakpoint)
+                {
+                    case Breakpoint.Xs:
+                        _position = TimelinePosition.Start;
+                        break;
+                    default:
+                        _position = TimelinePosition.Alternate;
+                        break;
+                }
+                InvokeAsync(StateHasChanged);
+            });
+
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    // Get the current Browser width
+    private async Task<int> GetWidth()
+    {
+        var dimension = await JsRuntime.InvokeAsync<WindowDimension>("getWindowDimensions");
+        return dimension.Width;
+    }
+}

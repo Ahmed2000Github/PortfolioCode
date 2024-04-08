@@ -1,0 +1,60 @@
+﻿@page "/"
+@* @inject IJSRuntime JsRuntime *@
+
+
+<MudHidden Breakpoint="Breakpoint.MdAndUp">
+    <style>
+        .text-width {
+            max-width: 100vw !important;
+        }
+
+        .button-container {
+            flex-direction: column;
+        }
+    </style>
+</MudHidden>
+
+
+
+<MudGrid Justify="Justify.Center">
+    <MudItem sm="10" md="7">
+        <Bar />
+        <br />
+        <MudText Typo="Typo.h2" Style="font-weight:bold">
+            im ahmed el rhaouti, a<span Typo="Typo.h3" style="color:@Colors.Cyan.Default">
+                Software Engineer
+            </span>
+        </MudText>
+        <br />
+        <MudText Typo="Typo.body1">
+            Passionate and dedicated software engineer with a keen eye for detail and a love for problem-solving. Specialized in crafting efficient and innovative solutions. Explore my portfolio to see projects showcasing my skills and commitment to pushing the boundaries in software development. Let's build the future together.
+        </MudText>
+        <br />
+        <MudGrid Justify="Justify.SpaceBetween">
+            <MudItem xs="12" sm="5">
+                <MudButton Href="contact" Variant="Variant.Filled" Color="Color.Primary" Class="custom-mud-button" Style="width:100%">
+                    Contact me
+                </MudButton>
+                </MudItem>
+            <MudItem xs="12" sm="5">
+                <MudButton Href="projects" Variant="Variant.Filled" Color="Color.Transparent" Class="custom-mud-button" Style="width:100%"> browse Projects</MudButton>
+            </MudItem>
+        </MudGrid>
+    </MudItem>
+    <MudItem sm="12" md="5" Class="d-flex justify-center align-center">
+        <MudImage Src="images/photo.png" Alt="Profile image" Style="width:90%" Elevation="0" Class="rounded-lg ma-4 reveal" />
+    </MudItem>
+</MudGrid>
+@code {
+    
+    // protected override async Task OnAfterRenderAsync(bool firstRender)
+    // {
+    //     if (firstRender)
+
+    //     {
+    //         await JsRuntime.InvokeVoidAsync("reveal");
+    //     }
+
+    //     await base.OnAfterRenderAsync(firstRender);
+    // }
+}

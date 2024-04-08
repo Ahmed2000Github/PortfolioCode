@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>MyPortfolio</title>
+    <base href="/" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <style>
+        @keyframes scaleAnimation {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .auto-scale-animation {
+            animation: scaleAnimation 2s ease-in-out;
+        }
+
+
+        .mud-snackbar {
+          /*  background-color: rgba(var(--mud-palette-success-text),0.7) !important;
+            box-shadow: #00bcd4 0px 5px 20px !important;*/
+            border-radius: 15px !important;
+            /*backdrop-filter: blur(20px);*/
+        }
+
+        /*.reveal {
+            position: relative;
+            transform: translateY(150px);
+            opacity: 0;
+            transition: 2s all ease;
+        }
+
+            .reveal.active {
+                transform: translateY(0);
+                opacity: 1;
+            }*/
+    </style>
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <div class="d-flex justify-center align-center" style="height:100vh">
+            <img src="./images/logo/icon.png" width="300" height="300" class="auto-scale-animation" />
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script>
+        window.getWindowDimensions = function () {
+            return {
+                width: window.innerWidth,
+                height: window.innerHeight
+            };
+        };
+        //window.reveal = function () {
+        //    revealContent();
+        //};
+        //function revealContent() {
+        //    var reveals = document.querySelectorAll(".reveal");
+        //    for (var i = 0; i < reveals.length; i++) {
+        //        var windowHeight = window.innerHeight;
+        //        var elementTop = reveals[i].getBoundingClientRect().top;
+        //        var elementVisible = 150;
+        //        if (elementTop < windowHeight - elementVisible) {
+        //            reveals[i].classList.add("active");
+        //        } else {
+        //            reveals[i].classList.remove("active");
+        //        }
+        //    }
+        //}
+        
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    console.log('Document is ready!');
+        //});
+   
+    </script>
+    <script src="_framework/blazor.webassembly.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+</html>

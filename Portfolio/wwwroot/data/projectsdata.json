@@ -1,0 +1,137 @@
+{
+  "projects": [
+    {
+      "name": "BookStore API",
+      "image": "csharp",
+      "description": "A simple, RESTful API powers the backend of a basic book store website.",
+      "link": "https://github.com/Ahmed2000Github/bookstore",
+      "techs": [
+        "ASP.NET",
+        "EF",
+        "MySQL"
+      ]
+    },
+    {
+      "name": "Microtask",
+      "image": "flutter",
+      "description": "An advanced mobile app for task organisation with reminders and notes.",
+      "link": "https://github.com/Ahmed2000Github/MicroTask",
+      "techs": [
+        "Flutter",
+        "Dart",
+        "Firebase"
+      ]
+    },
+    {
+      "name": "VideoDownloader",
+      "image": "swift",
+      "description": "A Sinple ios app allow users downloading video from any website including Youtube videos.",
+      "link": "https://github.com/Ahmed2000Github/VideoDownloader",
+      "techs": [
+        "Swift",
+        "UIKit",
+        "IOS"
+      ]
+    },
+    {
+      "name": "Food Image Classification API",
+      "image": "python",
+      "description": "Flask project's API classifies food images, providing top four names and accuracy scores for input images.",
+      "link": "https://github.com/Ahmed2000Github/food-image-classification-api",
+      "techs": [
+        "Flask",
+        "Tensorflow",
+        "Python"
+      ]
+    },
+    {
+      "name": "Feedback",
+      "image": "csharp",
+      "description": "A straightforward project for collecting and managing product ratings and feedback from users.",
+      "link": "https://github.com/Ahmed2000Github/feedback",
+      "techs": [
+        "ASP.NET",
+        "EF",
+        "SQLServer"
+      ]
+    },
+    {
+      "name": "FoodRecipe",
+      "image": "java",
+      "description": "FoodRecipe Platform: Neo4j-powered JEE app with real-time features. Share, explore, search by image using ML.",
+      "link": "https://github.com/Ahmed2000Github/FoodRecipe",
+      "techs": [
+        "JEE, JMS",
+        "JSF",
+        "Neo4j"
+      ]
+    },
+    {
+      "name": "Chatbot",
+      "image": "csharp",
+      "description": "Oracle Chatbot Web App: ASP.NET Core, ML.NET, jQuery AJAX for interactive user queries about Oracle Database.",
+      "link": "https://github.com/Ahmed2000Github/chatbot",
+      "techs": [
+        "ASP.NET",
+        "ML.NET",
+        "JQuery, ThreeJS"
+      ]
+    },
+    {
+      "name": "ElderHelper API",
+      "image": "nodejs",
+      "description": "Node.js backend for Elderly: Medication reminders, doctor assessments, real-time chat using Firebase and jQuery.",
+      "link": "https://github.com/Ahmed2000Github/ElderHelperAPI",
+      "techs": [
+        "NodeJS ",
+        "ExpressJS",
+        "Firebase, MongoDB",
+        "JQuery, EJS"
+      ]
+    },
+    {
+      "name": "BookManager",
+      "image": "nodejs",
+      "description": "Book Manager: Node.js, React.js, MySQL-powered app for easy book management with a user-friendly interface.",
+      "link": "https://github.com/Ahmed2000Github/BookManager",
+      "techs": [
+        "NodeJS",
+        "ExpressJS",
+        "ReactJS ",
+        "MySQL"
+      ]
+    },
+
+    {
+      "name": "E-Platform",
+      "image": "flutter",
+      "description": "E-Platform: Flutter app, ARCore for immersive student learning, 3D models from scanned textbook images.",
+      "link": "https://github.com/Ahmed2000Github/E-Platform",
+      "techs": [
+        "ARCore",
+        "Flutter"
+      ]
+    },
+
+    {
+      "name": "Ome",
+      "image": "flutter",
+      "description": "OME (Our Memory): Flutter app to beautifully store, encrypt, and cherish personal memories in a digital book.",
+      "link": "https://github.com/Ahmed2000Github/ome",
+      "techs": [
+        "Flutter"
+      ]
+    },
+
+    {
+      "name": "StudentManager",
+      "image": "java",
+      "description": "A Spring Boot API managing student information, offering CRUD operations on student records.",
+      "link": "https://github.com/Ahmed2000Github/Spring-Boot-API",
+      "techs": [
+        "Sringboot",
+        "SpringSecurity"
+      ]
+    }
+  ]
+}
