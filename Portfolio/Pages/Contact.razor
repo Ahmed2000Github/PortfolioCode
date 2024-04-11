@@ -146,6 +146,7 @@
                     bool result = await response.Content.ReadFromJsonAsync<bool>();
                     if (result)
                     {
+                        contactVM = new();
                         ShowSnackBar("Email was sent successfully !!!", Severity.Success);
                     }
                     else

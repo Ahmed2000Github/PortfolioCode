@@ -3,7 +3,9 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>	
+		<ImplicitUsings>enable</ImplicitUsings>
+		<BlazorCacheBootResources>false</BlazorCacheBootResources>
+		<BlazorEnableCompression>false</BlazorEnableCompression>
 	</PropertyGroup>
 
 	<ItemGroup>

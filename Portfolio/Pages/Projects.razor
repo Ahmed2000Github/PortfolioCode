@@ -84,7 +84,7 @@
     protected override async Task OnInitializedAsync()
     {
         
-        var jsonContent = await httpClient.GetStringAsync($"{navigationManager.BaseUri}/data/projectsdata.json");
+        var jsonContent = await httpClient.GetStringAsync($"{navigationManager.BaseUri}data/projectsdata.json");
         _projects = System.Text.Json.JsonSerializer.Deserialize<ProjectsVM>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
 
     }
