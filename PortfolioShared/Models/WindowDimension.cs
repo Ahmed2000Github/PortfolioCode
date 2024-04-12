@@ -1,4 +1,4 @@
-﻿namespace Portfolio.Models
+﻿namespace PortfolioShared.Models
 {
     public class WindowDimension
     {

@@ -1,6 +1,4 @@
 ﻿@page "/projects"
-@using MyPortfolio.ViewModels
-@using System.Text.Json
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
 
@@ -43,7 +41,7 @@
                         <MudPaper Class="pa-4">
                             <MudGrid>
                                 <MudItem xs="12" sm="4" Class="d-flex justify-center">
-                                    <MudImage Src="@($"./images/techs/{project.Image}.png")" Width="80" />
+                                    <MudImage Src="@($"_content/PortfolioShared/images/techs/{project.Image}.png")" Width="80" />
                                 </MudItem>
                                 <MudItem xs="12" sm="8" Class="d-flex justify-center align-center gap-1">
                                     <MudIcon Icon="@Icons.Material.Filled.Book" Size="Size.Medium" />

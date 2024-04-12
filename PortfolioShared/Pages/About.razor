@@ -1,6 +1,5 @@
 ﻿@page "/about"
-@using MudBlazor.Services
-@using Portfolio.Models
+
 @inject IJSRuntime JsRuntime
 @inject IBreakpointService BreakpointListener
 
@@ -45,7 +44,7 @@
         </MudGrid>
     </MudItem>
     <MudItem xs="12" md="6" Class="d-flex justify-center">
-        <MudImage Src="./images/about.png" Class="image-width" />
+        <MudImage Src="_content/PortfolioShared/images/about.png" Class="image-width" />
     </MudItem>
 </MudGrid>
 <br />
@@ -102,7 +101,7 @@
         <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="@_position" Reverse="true">
             <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
                 <ItemDot>
-                    <MudAvatar Size="@Size.Large" Image="./images/csharp.png" />
+                    <MudAvatar Size="@Size.Large" Image="_content/PortfolioShared/images/csharp.png" />
                 </ItemDot>
                 <ItemContent>
                     <MudPaper Class="pa-4">
@@ -119,7 +118,7 @@
             </MudTimelineItem>
             <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
                 <ItemDot>
-                    <MudAvatar Size="@Size.Large" Image="./images/swift.png" />
+                    <MudAvatar Size="@Size.Large" Image="_content/PortfolioShared/images/swift.png" />
                 </ItemDot>
                 <ItemContent>
                     <MudPaper Class="pa-4">
@@ -136,7 +135,7 @@
             </MudTimelineItem>
             <MudTimelineItem  Size="@Size.Large" Variant="Variant.Filled">
                 <ItemDot>
-                    <MudAvatar Size="@Size.Large"  Image="./images/flutter.png" />
+                    <MudAvatar Size="@Size.Large"  Image="_content/PortfolioShared/images/flutter.png" />
                 </ItemDot>
                 <ItemContent>
                     <MudPaper Class="pa-4">

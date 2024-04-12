@@ -1,4 +1,4 @@
-﻿namespace MyPortfolio.ViewModels
+﻿namespace PortfolioShared.ViewModels
 {
     public class ProjectVM
     {

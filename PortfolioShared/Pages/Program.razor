@@ -1,6 +1,5 @@
 ﻿@page "/program"
-@using MudBlazor.Services
-@using Portfolio.Models
+
 @inject IJSRuntime JsRuntime
 @inject IBreakpointService BreakpointListener
 
@@ -79,7 +78,7 @@
         int currentItem = i;
     <MudCarouselItem Transition="transition" Color="@Color.Transparent">
         <div class="d-flex justify-center align-center" style="height:100%">
-                <MudImage ObjectFit="@ImageFit" Height="200" Width="400" Src="@($"./images/certificates/cert{currentItem}.jpg")" />
+                <MudImage ObjectFit="@ImageFit" Height="200" Width="400" Src="@($"_content/PortfolioShared/images/certificates/cert{currentItem}.jpg")" />
         </div>
     </MudCarouselItem>
     }
