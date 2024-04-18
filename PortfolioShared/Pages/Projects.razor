@@ -1,5 +1,4 @@
 ﻿@page "/projects"
-@inject HttpClient httpClient
 @inject NavigationManager navigationManager
 
 
@@ -9,17 +8,18 @@
     }
 
     .no-scroll {
-        scrollbar-width: thin; 
-        -ms-overflow-style: none; 
-        scrollbar-width: none; 
-    
+        scrollbar-width: thin;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
-    .no-scroll::-webkit-scrollbar {
-        width: 0 !important; 
-        height: 0 !important;
+
+        .no-scroll::-webkit-scrollbar {
+            width: 0 !important;
+            height: 0 !important;
             display: none;
-    }
+        }
 </style>
+@* <LastWorks/> *@
 <MudGrid Justify="Justify.Center">
     <MudItem xs="12" Class="d-flex justify-center">
         <Bar />
@@ -33,7 +33,7 @@
     </MudItem>
     <MudItem xs="12">
         <MudGrid Justify="Justify.Center">
-            @if (_projects!=null)
+            @if (loadingStatus == LoadingStatus.LoadingSuceeded && _projects != null)
             {
                 @foreach (var project in _projects.Projects)
                 {
@@ -65,10 +65,18 @@
                     </MudItem>
                 }
             }
-            else
+            else if (loadingStatus == LoadingStatus.LoadingInProgress)
             {
                 <MudItem xs="12" Class="d-flex justify-center">
                     <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+                </MudItem>
+            }
+            else
+            {
+                <MudItem xs="12" Class="d-flex justify-center">
+                    <MudText Typo="Typo.h6">
+                        Network connection error. <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="TryAgain">try again</MudButton>
+                    </MudText>
                 </MudItem>
             }
 
@@ -78,12 +86,32 @@
 
 @code {
     ProjectsVM _projects;
+    LoadingStatus loadingStatus = LoadingStatus.LoadingInProgress;
 
     protected override async Task OnInitializedAsync()
     {
-        
-        var jsonContent = await httpClient.GetStringAsync($"{navigationManager.BaseUri}data/projectsdata.json");
-        _projects = System.Text.Json.JsonSerializer.Deserialize<ProjectsVM>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+
+        await fetchData();
+
+    }
+    private async Task TryAgain()
+    {
+        await fetchData();
+    }
+    private async Task fetchData()
+    {
+        try
+        {
+            loadingStatus = LoadingStatus.LoadingInProgress;
+            var jsonContent = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Ahmed2000Github/Data/master/projectsdata.json");
+            _projects = System.Text.Json.JsonSerializer.Deserialize<ProjectsVM>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            loadingStatus = LoadingStatus.LoadingSuceeded;
+        }
+        catch (Exception)
+        {
+            loadingStatus = LoadingStatus.LoadingFailed;
+
+        }
 
     }
 }

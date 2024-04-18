@@ -1,0 +1,19 @@
+
+
+
+
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)" > 
+            <div class="d-flex justify-center flex-column align-center">
+            <MudImage Src="_content/PortfolioShared/images/not-found.svg" Width="200" Height="200" Alt="Logo" Elevation="0"  />
+            <MudText Typo="Typo.h6">
+                This page does not exist.
+            </MudText>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>
