@@ -100,7 +100,16 @@
             min-width: 260px;
         }
     }
-</style>
+
+    .mud-nav-link-text{
+        margin-left:0px !important;
+    }
+
+    .mud-overlay{
+        height:100vh;
+    }
+
+        </style>
 
 <MudLayout>
     <MudAppBar Elevation="0" Class="text-color">
@@ -124,6 +133,26 @@
             <MudHidden Breakpoint="Breakpoint.MdAndUp" Invert="true">
                 <MudSpacer />
                 <NavMenu IsHorizontal="true" />
+                <MudMenu ActivationEvent="@MouseEvent.LeftClick" AnchorOrigin="Origin.BottomCenter" TransformOrigin="Origin.TopCenter">
+                        <ActivatorContent>
+                            <MudContainer Class="mud-nav-link">
+                                <MudText Typo="Typo.h6">pages</MudText>
+                            </MudContainer>
+                        </ActivatorContent>
+                        <ChildContent>
+                        <MudMenuItem Class="pl-2 d-flex justify-start">
+                            <MudNavLink Href="program" Class=" d-flex align-start" Match="NavLinkMatch.Prefix">
+                                    <MudText Typo="Typo.h6" >program</MudText>
+                                </MudNavLink>
+                            </MudMenuItem>
+                        <MudMenuItem Class="pl-2 d-flex justify-start">
+                            <MudNavLink Href="3d"Match="NavLinkMatch.Prefix">
+                                <MudText Typo="Typo.h6">3d</MudText>
+                                </MudNavLink>
+                            </MudMenuItem>
+                        </ChildContent>
+                    </MudMenu>
+
             </MudHidden>
         </MudBreakpointProvider>
         <MudSpacer />
@@ -144,7 +173,7 @@
             <MudIconButton Icon="@modeIcon" Color="Color.Inherit" OnClick="changeThemeModeClicked" />
         </MudDrawerHeader>
 
-        <NavMenu IsHorizontal="false" />
+        <NavMenu IsHorizontal="false" IsClosed="_drawerOpen"/>
 
     </MudDrawer>
     <MudMainContent>
@@ -173,6 +202,7 @@
         if (firstRender)
         {
             _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            themeService.SetDarkMode(_isDarkMode);
             ShowSnackBar();
             StateHasChanged();
         }
@@ -256,9 +286,12 @@
         };
 
     // Handle theme mode button click
-    private void changeThemeModeClicked()
+    private async Task changeThemeModeClicked()
     {
         _isDarkMode = !_isDarkMode;
+        themeService.SetDarkMode(_isDarkMode);
         StateHasChanged();
+        var color = _isDarkMode ? "#1A1A27" : "#F4FAFB";
+        await JsRuntime.InvokeVoidAsync("onSceneParentChangeColor", color);
     }
 }

@@ -1,8 +1,5 @@
 ﻿@page "/about"
 
-@inject IJSRuntime JsRuntime
-@inject IBreakpointService BreakpointListener
-
 <style>
     .image-width {
         /* width: 100%; */
@@ -107,13 +104,13 @@
                     <MudPaper Class="pa-4">
                         @if (_position == TimelinePosition.Start)
                         {
-                            <MudText Typo="Typo.h5">2024 (4 Months)</MudText>
+                            <MudText Typo="Typo.h5">2024 (6 Months)</MudText>
                         }
                         <MudText Typo="Typo.body1">Open DotNet projects <span style="color:var(--mud-palette-primary)"> @@Home</span></MudText>
                     </MudPaper>
                 </ItemContent>
                 <ItemOpposite>
-                    <MudText Color="Color.Warning">2024 (4 Months)</MudText>
+                    <MudText Color="Color.Warning">2024 (6 Months)</MudText>
                 </ItemOpposite>
             </MudTimelineItem>
             <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">

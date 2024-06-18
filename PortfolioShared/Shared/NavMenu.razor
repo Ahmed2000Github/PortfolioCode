@@ -6,7 +6,15 @@
     h6 {
         text-align: center;
     }
-</style>
+
+    .mud-list-item-text .mud-typography{
+        text-align:center;
+        font-size: var(--mud-typography-h6-size);
+        font-weight: var(--mud-typography-h6-weight);
+        line-height: var(--mud-typography-h6-lineheight);
+        letter-spacing: var(--mud-typography-h6-letterspacing);
+    }
+    </style>
 
 
 <MudNavMenu Color="Color.Default">
@@ -22,17 +30,31 @@
             </MudNavLink>
         </MudItem>
         <MudItem xs="@getValue">
-            <MudNavLink Href="program" Match="NavLinkMatch.Prefix">
-                <MudText Typo="Typo.h6">program</MudText>
-            </MudNavLink>
-        </MudItem>
-        <MudItem xs="@getValue">
             <MudNavLink Href="projects" Match="NavLinkMatch.Prefix">
                 <MudText Typo="Typo.h6">projects</MudText>
             </MudNavLink>
         </MudItem>
         @if (!IsHorizontal)
         {
+            <MudItem xs="@getValue">
+                <MudList Clickable="true" Color="Color.Primary">
+
+                    <MudListItem Text="pages" Class="mud-typography-h6" InitiallyExpanded="false" Expanded="IsClosed">
+                        <NestedList>
+                            <MudListItem >
+                                <MudNavLink Href="program" Match="NavLinkMatch.Prefix">
+                                    <MudText Typo="Typo.h6" Align="Align.Start">program</MudText>
+                                </MudNavLink>
+                            </MudListItem>
+                            <MudListItem >
+                                <MudNavLink Href="3d" Match="NavLinkMatch.Prefix">
+                                    <MudText Typo="Typo.h6" Align="Align.Start">3d</MudText>
+                                </MudNavLink>
+                            </MudListItem>
+                        </NestedList>
+                    </MudListItem>
+                </MudList>
+            </MudItem>
             <MudItem xs="@getValue">
                 <MudNavLink Href="contact" Match="NavLinkMatch.Prefix">
                     <MudText Typo="Typo.h6">contact</MudText>
@@ -44,7 +66,9 @@
 
 @code {
     [Parameter]
-    public bool IsHorizontal { get; set; }
+    public bool IsHorizontal { get; set; } 
+    [Parameter]
+    public bool IsClosed { get; set; } = false;
 
     // Get correct GridItm's xs value
     private int getValue => IsHorizontal ? 0 : 12;

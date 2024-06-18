@@ -1,6 +1,5 @@
 ﻿@page "/contact"
 
-@inject HttpClient Http
 @inject ISnackbar Snackbar
 
 <title>Contact</title>
@@ -96,9 +95,6 @@
 
     MudForm form;
 
-
-    [Inject] IBreakpointService BreakpointListener { get; set; }
-
     string _flexColumn = "";
     Align _textAlign = Align.Start;
 
@@ -137,7 +133,7 @@
             var snackBar =  ShowSnackBar("Sending the email ... ",duration:int.MaxValue); 
             try
             {
-                var response = await Http.PostAsJsonAsync<ContactVM>("api/Home/SendMail", contactVM);
+                var response = await httpClient.PostAsJsonAsync<ContactVM>("api/Home/SendMail", contactVM);
                 Snackbar.Remove(snackBar);
                 if (response.IsSuccessStatusCode)
                 {

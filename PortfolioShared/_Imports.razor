@@ -3,12 +3,20 @@
 @using MudBlazor
 @using MudBlazor.Services
 @using PortfolioShared
+@using PortfolioShared.Services.Interfaces
 @using PortfolioShared.Shared
 @using PortfolioShared.Models
 @using PortfolioShared.ViewModels
 @using PortfolioShared.Components
+@using ChatAppShared.Configurations
 @using System.Net.Http
 @using System.Net.Http.Json
 @using System.Text.Json
 @using Microsoft.JSInterop
+
+
+@inject IJSRuntime JsRuntime
+@inject IBreakpointService BreakpointListener
 @inject HttpClient httpClient
+@inject IThemeService themeService
+@inject NavigationManager navigationManager

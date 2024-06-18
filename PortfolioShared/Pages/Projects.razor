@@ -19,10 +19,9 @@
             display: none;
         }
 </style>
-@* <LastWorks/> *@
 <MudGrid Justify="Justify.Center">
     <MudItem xs="12" Class="d-flex justify-center">
-        <Bar />
+        <Bar /> 
     </MudItem>
     <MudItem xs="12">
         <MudText Typo="Typo.h2" Align="Align.Center">my projects</MudText>
@@ -103,7 +102,7 @@
         try
         {
             loadingStatus = LoadingStatus.LoadingInProgress;
-            var jsonContent = await httpClient.GetStringAsync("https://raw.githubusercontent.com/Ahmed2000Github/Data/master/projectsdata.json");
+            var jsonContent = await httpClient.GetStringAsync(AppConfig.PROJECTS_LIST_BASE_URL);
             _projects = System.Text.Json.JsonSerializer.Deserialize<ProjectsVM>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
             loadingStatus = LoadingStatus.LoadingSuceeded;
         }

@@ -1,0 +1,140 @@
+﻿@page "/3d"
+@implements IDisposable
+<style>
+    #bg {
+        border-radius: 25px !important;
+    }
+
+    .models-lis-constraints {
+        max-height: calc(100vw / 2 - 48px);
+        min-height: calc(100vw / 2 - 48px);
+        overflow-x: scroll;
+        overflow-x: hidden;
+    }
+    @@media (max-width:600px){
+        .models-lis-constraints {
+            max-height: calc(100vw * 2 / 3 - 48px);
+            min-height: calc(100vw * 2 / 3 - 48px);
+        }
+    }
+</style>
+<MudGrid>
+    <MudItem xs="12" Class="d-flex justify-center">
+        <Bar />
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h2" Align="Align.Center">my 3d models</MudText>
+    </MudItem>
+    <MudItem xs="12" >
+        <MudText Typo="Typo.body1" Align="Align.Center">Discover my Blender 3D modeling projects, showcasing my creative and technical skills.</MudText>
+        <br />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudCard Outlined="true" Elevation="25" id="card">
+            <MudCardContent Class="d-flex justify-center pa-0">
+                <canvas id="bg"></canvas>
+            </MudCardContent>
+        </MudCard>
+    </MudItem>
+    <MudItem xs="12" md="6" Class="d-flex align-center gap-4">
+        @if (loadingStatus == LoadingStatus.LoadingSuceeded)
+        {
+            <MudContainer Class="models-lis-constraints pa-0">
+                <MudList Clickable Color="Color.Primary" id="modelList">
+                    @foreach (var model in models)
+                    {
+                        <MudListItem OnClick="()=>LoadModel(model.Model)">
+                            <MudStack Row Class="align-center">
+                                <MudAvatar Image=@(AppConfig.MODEL_IMAGE_BASE_URL+model.Model+".jpg") />
+                                <MudText Typo="Typo.body1">@model.Name</MudText>
+                            </MudStack>
+                        </MudListItem>
+                    }
+
+                </MudList>
+            </MudContainer>
+        }
+        else if (loadingStatus == LoadingStatus.LoadingInProgress)
+        {
+            <MudContainer Class="models-lis-constraints pa-0 d-flex justify-center align-center">
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+            </MudContainer>
+        }
+        else
+        {
+            <MudContainer Class="models-lis-constraints pa-0 d-flex justify-center align-center">
+                <MudText Typo="Typo.h6">
+                    Network connection error. <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="TryAgain">try again</MudButton>
+                </MudText>
+            </MudContainer>
+        }
+
+    </MudItem>
+</MudGrid>
+
+
+@code {
+    List<ThreeDModelVM> models = new();
+    LoadingStatus loadingStatus = LoadingStatus.LoadingInProgress;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        themeService.OnChange += OnSceneParentChange;
+         await fetchData();
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JsRuntime.InvokeVoidAsync("setupViewer");
+            await JsRuntime.InvokeVoidAsync("registerResizeHandler", DotNetObjectReference.Create(this));
+            await JsRuntime.InvokeVoidAsync("onSceneParentChangeSize");
+            OnSceneParentChange();
+        }
+    }
+    public void Dispose()
+    {
+        themeService.OnChange -= OnSceneParentChange;
+    }
+    [JSInvokable]
+    public void OnWindowResize(int width, int height)
+    {
+        JsRuntime.InvokeVoidAsync("onSceneParentChangeSize");
+    }
+
+
+    void OnSceneParentChange()
+    {
+        var color = themeService.IsDarkMode ? "#1A1A27" : "#F4FAFB";
+        JsRuntime.InvokeVoidAsync("onSceneParentChangeColor", color);
+    }
+    async Task LoadModel(string modelName)
+    {
+        var url = AppConfig.MODEL_BASE_URL + modelName + ".glb";
+        await JsRuntime.InvokeVoidAsync("loadModel", url);
+    }
+
+    private async Task TryAgain()
+    {
+        await fetchData();
+    }
+    private async Task fetchData()
+    {
+        try
+        {
+            loadingStatus = LoadingStatus.LoadingInProgress;
+            var jsonContent = await httpClient.GetStringAsync(AppConfig.MODELS_LIST_BASE_URL);
+            models = System.Text.Json.JsonSerializer.Deserialize<List<ThreeDModelVM>>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            loadingStatus = LoadingStatus.LoadingSuceeded;
+        }
+        catch (Exception)
+        {
+            loadingStatus = LoadingStatus.LoadingFailed;
+
+        }
+
+    }
+}
