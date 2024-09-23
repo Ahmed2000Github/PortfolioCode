@@ -1,0 +1,107 @@
+﻿<style>
+    .thumbnail{
+        width:100%;
+        height:98%
+    }
+
+    .my-custom-class {
+        backdrop-filter: blur(10px);
+    }
+
+    .mud-carousel div button{
+        color:var(--mud-palette-primary) !important;
+    }
+</style>
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" Class="d-flex justify-center">
+        <Bar />
+    </MudItem>
+    <MudItem xs="12">
+        <MudText Typo="Typo.h3" Align="Align.Center">my recent projects</MudText>
+    </MudItem>
+    <MudItem xs="12" sm="7">
+        <MudText Typo="Typo.body1" Align="Align.Center">I have been actively working on several exciting projects that demonstrate my skills in mobile and web development.</MudText>
+    </MudItem>
+</MudGrid>
+
+@if (_loadingStatus == LoadingStatus.LoadingSuceeded && _works != null)
+{
+    <MudCarousel Class="mud-width-full" Style="height:400px;" AutoCycleTime="TimeSpan.FromSeconds(1000)" ShowArrows="true" ShowBullets="true" BulletsColor="Color.Primary"  AutoCycle="true" TData="object">
+
+    @foreach (var work in _works)
+    {
+        <MudCarouselItem Transition="transition" Color="@Color.Transparent">
+            <div class="d-flex justify-center align-start absolute pt-4" style="height:100%;width:100%;">
+                    <MudChip T="string" Class="work-title" Size="Size.Large" Color="Color.Primary">@work.Title</MudChip>
+            </div>
+            <div class="d-flex justify-center align-center absolute pt-4" style="height:100%;width:100%;opacity:0.7">
+                    <MudFab Color="Color.Primary" Href="@work.Link" Target="_blank" Size="Size.Medium" StartIcon="@Icons.Material.Filled.PlayArrow" />
+            </div>
+           
+            <div class="d-flex justify-center align-center" style="height:100%">
+                    <MudImage ObjectFit="@ObjectFit.Contain" Class="thumbnail" Src="@work.Thumbnail" />
+            </div>
+
+        </MudCarouselItem>
+    }
+</MudCarousel>
+ }
+            else if (_loadingStatus == LoadingStatus.LoadingInProgress)
+            {
+<MudItem xs="12" Class="d-flex justify-center">
+    <MudProgressCircular Color="Color.Primary" Indeterminate="true" />
+</MudItem>
+            }
+            else
+            {
+<MudItem xs="12" Class="d-flex justify-center">
+    <MudText Typo="Typo.h6">
+        Network connection error. <MudButton Variant="Variant.Text" Color="Color.Primary" OnClick="TryAgain">try again</MudButton>
+    </MudText>
+</MudItem>
+            }
+            <br/>
+
+@code {
+    // Transition mode
+    private Transition transition = Transition.Slide;
+
+    // Image fit mode
+    private ObjectFit ImageFit = ObjectFit.ScaleDown;
+
+    // Current TimeLine Position
+    TimelinePosition _position = TimelinePosition.Alternate;
+
+    IEnumerable<RecentWorkVM> _works;
+    LoadingStatus _loadingStatus = LoadingStatus.LoadingInProgress;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        await fetchData();
+
+    }
+    private async Task TryAgain()
+    {
+        await fetchData();
+    }
+    private async Task fetchData()
+    {
+        try
+        {
+            _loadingStatus = LoadingStatus.LoadingInProgress;
+            var jsonContent = await httpClient.GetStringAsync(AppConfig.RECENT_WORKS_LIST_BASE_URL);
+            _works = System.Text.Json.JsonSerializer.Deserialize<List<RecentWorkVM>>(jsonContent, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })!;
+            _loadingStatus = LoadingStatus.LoadingSuceeded;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            _loadingStatus = LoadingStatus.LoadingFailed;
+
+        }
+
+    }
+  
+}
