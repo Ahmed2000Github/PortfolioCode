@@ -4,6 +4,7 @@ namespace ChatAppShared.Configurations
 {
     public static class AppConfig
     {
+        public const string CV = "https://1drv.ms/b/s!AuHD93h_9HkChQbBiGH56q4rGIgK?e=bWW2Kz";
         public const string MODEL_IMAGE_BASE_URL = "https://raw.githubusercontent.com/Ahmed2000Github/Data/master/3d/Images/";
         public const string MODEL_BASE_URL = "https://raw.githubusercontent.com/Ahmed2000Github/Data/master/3d/Models/";
         public const string PROJECTS_LIST_BASE_URL = "https://raw.githubusercontent.com/Ahmed2000Github/Data/master/projectsdata.json";
