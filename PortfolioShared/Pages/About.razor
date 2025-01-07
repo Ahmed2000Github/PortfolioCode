@@ -96,58 +96,26 @@
     </MudItem>
     <MudItem xs="12" md="5" Class="d-flex justify-center">
         <MudTimeline TimelineOrientation="TimelineOrientation.Vertical" TimelinePosition="@_position" Reverse="true">
-            <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
-                <ItemDot>
-                    <MudAvatar Size="@Size.Large" Image="_content/PortfolioShared/images/csharp.png" />
-                </ItemDot>
-                <ItemContent>
-                    <MudPaper Class="pa-4">
-                        @if (_position == TimelinePosition.Start)
-                        {
-                            <MudText Typo="Typo.h5">2024 (6 Months)</MudText>
-                        }
-                        <MudText Typo="Typo.body1">Open DotNet projects <span style="color:var(--mud-palette-primary)"> @@Home</span></MudText>
-                    </MudPaper>
-                </ItemContent>
-                <ItemOpposite>
-                    <MudText Color="Color.Warning">2024 (6 Months)</MudText>
-                </ItemOpposite>
-            </MudTimelineItem>
-            <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
-                <ItemDot>
-                    <MudAvatar Size="@Size.Large" Image="_content/PortfolioShared/images/swift.png" />
-                </ItemDot>
-                <ItemContent>
-                    <MudPaper Class="pa-4">
-                        @if (_position == TimelinePosition.Start)
-                        {
-                            <MudText Typo="Typo.h5">2023 (6 Months)</MudText>
-                        }
-                        <MudText Typo="Typo.body1">Swift Developement Intership (PFE) <span style="color:var(--mud-palette-primary)">@@ADRIA B&T</span></MudText>
-                    </MudPaper>
-                </ItemContent>
-                <ItemOpposite>
-                    <MudText Color="Color.Warning">2023 (6 Months)</MudText>
-                </ItemOpposite>
-            </MudTimelineItem>
-            <MudTimelineItem  Size="@Size.Large" Variant="Variant.Filled">
-                <ItemDot>
-                    <MudAvatar Size="@Size.Large"  Image="_content/PortfolioShared/images/flutter.png" />
-                </ItemDot>
-                <ItemContent>
-                    <MudPaper Class="pa-4">
-                        @if(_position == TimelinePosition.Start)
-                        {
-                        <MudText Typo="Typo.h5">2022 (2 Months)</MudText>
-                        }
-                        <MudText Typo="Typo.body1">Flutter Developement Intership (PFA) <span style="color:var(--mud-palette-primary)">@@ADRIA B&T</span></MudText>
-                    </MudPaper>
-                </ItemContent>
-                <ItemOpposite>
-                    <MudText Color="Color.Info">2022 (2 Months)</MudText>
-                </ItemOpposite>
-            </MudTimelineItem>
-           
+            @foreach (var experience in _experiences)
+            {
+                <MudTimelineItem Color="Color.Success" Size="@Size.Large" Variant="Variant.Filled">
+                    <ItemDot>
+                        <MudAvatar Size="@Size.Large" Image=@("_content/PortfolioShared/images/"+experience.Image+".png") />
+                    </ItemDot>
+                    <ItemContent>
+                        <MudPaper Class="pa-4">
+                            @if (_position == TimelinePosition.Start)
+                            {
+                                <MudText Typo="Typo.h5">@experience.Title</MudText>
+                            }
+                            <MudText Typo="Typo.body1">@experience.Description<span style="color:var(--mud-palette-primary)"> @@@experience.Location</span></MudText>
+                        </MudPaper>
+                    </ItemContent>
+                    <ItemOpposite>
+                        <MudText Color="Color.Warning">@experience.Title</MudText>
+                    </ItemOpposite>
+                </MudTimelineItem>
+            }
         </MudTimeline>
     </MudItem>
 </MudGrid>
@@ -155,6 +123,42 @@
 @code {
     // Current TimeLine Position
     TimelinePosition _position = TimelinePosition.Alternate;
+
+     IEnumerable<Experience> _experiences = new List<Experience>()
+    {
+        new Experience()
+        {
+            Title = "2024 (2 Months)",
+            Description = "Flutter Developement Intership ",
+            Image = "flutter",
+            Location = "Digital Progress",
+        }, new Experience()
+        {
+            Title = "2024 (4 Months)",
+            Description = "Open Flutter project ",
+            Image = "flutter",
+            Location = "Home",
+        }, 
+        new Experience()
+        {
+            Title = "2023-2024 (11 Months)",
+            Description = "Open DotNet projects (Personal Projects) ",
+            Image = "csharp",
+Location = "Home",
+        }, new Experience()
+        {
+            Title = "2023 (6 Months)",
+            Description = "Swift Developement Intership (PFE) ",
+            Image = "swift",
+            Location = "ADRIA B&T",
+        }, new Experience()
+        {
+            Title = "2022 (2 Months)",
+            Description = "Flutter Developement Intership (PFA) ",
+            Image = "flutter",
+            Location = "ADRIA B&T",
+        },
+    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -200,5 +204,14 @@
     {
         var dimension = await JsRuntime.InvokeAsync<WindowDimension>("getWindowDimensions");
         return dimension.Width;
+    }
+
+    class Experience
+    {
+        public String Title { get; set; }
+        public String Description { get; set; }
+        public String Image { get; set; }
+        public String Location { get; set; }
+        
     }
 }
